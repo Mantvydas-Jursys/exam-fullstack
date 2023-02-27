@@ -8,14 +8,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
+@Table(name="Client")
 public class ClientEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	@NotBlank
 	private String name;
@@ -29,24 +31,24 @@ public class ClientEntity {
 	@NotBlank
 	private String phone;
 	
-	private ClientEnum typeOfClient = ClientEnum.REGULAR;
+	private boolean loyalClient = false;
 	
 	
-	private InventoryEntity assignedInvetory;
+//	private InventoryEntity assignedInvetory;
 
 	public ClientEntity() {
 		
 	}
 	
 	public ClientEntity(long id, @NotBlank String name, @NotBlank String surname, @NotBlank LocalDateTime birthday,
-			@NotBlank String phone, ClientEnum typeOfClient) {
+			@NotBlank String phone, boolean loyalClient) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
 		this.birthday = birthday;
 		this.phone = phone;
-		this.typeOfClient = typeOfClient;
+		this.loyalClient = loyalClient;
 	}
 
 	public long getId() {
@@ -89,26 +91,27 @@ public class ClientEntity {
 		this.phone = phone;
 	}
 
-	public ClientEnum getTypeOfClient() {
-		return typeOfClient;
-	}
-
-	public void setTypeOfClient(ClientEnum typeOfClient) {
-		this.typeOfClient = typeOfClient;
-	}
 	
-	public InventoryEntity getAssignedInvetory() {
-		return assignedInvetory;
+	public boolean isLoyalClient() {
+		return loyalClient;
 	}
 
-	public void setAssignedInvetory(InventoryEntity assignedInvetory) {
-		this.assignedInvetory = assignedInvetory;
+	public void setLoyalClient(boolean loyalClient) {
+		this.loyalClient = loyalClient;
 	}
+
+//	public InventoryEntity getAssignedInvetory() {
+//		return assignedInvetory;
+//	}
+//
+//	public void setAssignedInvetory(InventoryEntity assignedInvetory) {
+//		this.assignedInvetory = assignedInvetory;
+//	}
 
 	@Override
 	public String toString() {
 		return "ClientEntity [id=" + id + ", name=" + name + ", surname=" + surname + ", birthday=" + birthday
-				+ ", phone=" + phone + ", typeOfClient=" + typeOfClient + "]";
+				+ ", phone=" + phone + ", typeOfClient=" + loyalClient + "]";
 	}
 
 	
