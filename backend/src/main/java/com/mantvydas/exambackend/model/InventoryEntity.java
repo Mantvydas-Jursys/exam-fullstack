@@ -39,7 +39,7 @@ public class InventoryEntity {
 	private LocalDateTime createdDate;
 
 	@OneToMany
-	@JoinColumn(name = "ClientEntity_id")
+	@JoinColumn(name = "Client_id")
 	private List<ClientEntity> comment = new ArrayList<>();
 	
 	public InventoryEntity() {
