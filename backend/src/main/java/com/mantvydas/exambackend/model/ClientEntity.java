@@ -30,7 +30,13 @@ public class ClientEntity {
 	private String phone;
 	
 	private ClientEnum typeOfClient = ClientEnum.REGULAR;
+	
+	
+	private InventoryEntity assignedInvetory;
 
+	public ClientEntity() {
+		
+	}
 	
 	public ClientEntity(long id, @NotBlank String name, @NotBlank String surname, @NotBlank LocalDateTime birthday,
 			@NotBlank String phone, ClientEnum typeOfClient) {
@@ -89,6 +95,14 @@ public class ClientEntity {
 
 	public void setTypeOfClient(ClientEnum typeOfClient) {
 		this.typeOfClient = typeOfClient;
+	}
+	
+	public InventoryEntity getAssignedInvetory() {
+		return assignedInvetory;
+	}
+
+	public void setAssignedInvetory(InventoryEntity assignedInvetory) {
+		this.assignedInvetory = assignedInvetory;
 	}
 
 	@Override
