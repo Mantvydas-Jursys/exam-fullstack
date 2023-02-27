@@ -56,6 +56,7 @@ public class ClientService {
 	
 	public void deleteById(long id) {
 		
+		logger.info("ClientEntity deleted with id: " + id);
 		clientRepository.deleteById(id);
 	}
 	
