@@ -5,7 +5,7 @@ function AddNewInventory() {
 
         <div>
 
-            <h1>Prideti nauja klienta</h1>
+            <h1>Prideti nauja sandeli</h1>
 
             <form>
                 <label>
