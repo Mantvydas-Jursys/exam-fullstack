@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mantvydas.exambackend.dao.ClientRepository;
 import com.mantvydas.exambackend.model.ClientEntity;
 import com.mantvydas.exambackend.model.InventoryEntity;
+import com.mantvydas.exambackend.service.ClientService;
 
 @RestController
 @RequestMapping("/clients")
@@ -26,10 +28,11 @@ public class ClientController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ClientController.class);
 
-    private final ClientRepository clientRepository;
+    private final ClientService clientService;
 
-    public ClientController(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
+    @Autowired
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
     }
 
     @GetMapping
@@ -37,19 +40,19 @@ public class ClientController {
     	
     	logger.info("clients returned");
     	
-        return clientRepository.findAll();
+        return clientService.findAll();
     }
 
     @GetMapping("/{id}")
     public ClientEntity getClient(@PathVariable Long id) {
     	
     	logger.info("client returned with id: " + id);
-        return clientRepository.findById(id).orElseThrow(RuntimeException::new);
+        return clientService.findById(id).orElseThrow(RuntimeException::new);
     }
 
     @PostMapping
     public ResponseEntity createClient(@RequestBody ClientEntity client) throws URISyntaxException {
-    	ClientEntity savedClient = clientRepository.save(client);
+    	ClientEntity savedClient = clientService.save(client);
     	
     	logger.info("new client created with id: " + client.getId());
     	
@@ -58,13 +61,13 @@ public class ClientController {
 
     @PutMapping("/{id}")
     public ResponseEntity updateClient(@PathVariable Long id, @RequestBody ClientEntity client) {
-    	ClientEntity currentClient = clientRepository.findById(id).orElseThrow(RuntimeException::new);
+    	ClientEntity currentClient = clientService.findById(id).orElseThrow(RuntimeException::new);
         currentClient.setName(client.getName());
         currentClient.setSurname(client.getSurname());
         currentClient.setBirthday(client.getBirthday());
         currentClient.setPhone(client.getPhone());
         currentClient.setLoyal(client.isLoyal());
-        currentClient = clientRepository.save(client);
+        currentClient = clientService.save(client);
 
         logger.info("client updated with id: " + client.getId());
         
@@ -73,7 +76,7 @@ public class ClientController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteClient(@PathVariable Long id) {
-        clientRepository.deleteById(id);
+    	clientService.deleteById(id);
         
         logger.info("client deleted with id: " + id);
         
