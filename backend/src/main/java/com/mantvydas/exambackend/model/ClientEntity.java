@@ -1,8 +1,7 @@
 package com.mantvydas.exambackend.model;
 
-import java.time.LocalDateTime;
-
-import com.mantvydas.exambackend.utility.ClientEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +13,8 @@ import jakarta.validation.constraints.NotBlank;
 @Entity
 @Table(name="Client")
 public class ClientEntity {
+	
+	private static final Logger logger = LoggerFactory.getLogger(ClientEntity.class);
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,12 +27,12 @@ public class ClientEntity {
 	private String surname;
 	
 	@NotBlank
-	private LocalDateTime birthday; 
+	private String birthday; 
 	
 	@NotBlank
 	private String phone;
 	
-	private boolean loyalClient = false;
+	private boolean isLoyal = false;
 	
 	
 //	private InventoryEntity assignedInvetory;
@@ -40,15 +41,16 @@ public class ClientEntity {
 		
 	}
 	
-	public ClientEntity(long id, @NotBlank String name, @NotBlank String surname, @NotBlank LocalDateTime birthday,
-			@NotBlank String phone, boolean loyalClient) {
+	public ClientEntity(@NotBlank String name, @NotBlank String surname, @NotBlank String birthday,
+			@NotBlank String phone, boolean isLoyal) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.surname = surname;
 		this.birthday = birthday;
 		this.phone = phone;
-		this.loyalClient = loyalClient;
+		this.isLoyal = isLoyal;
+		
+		logger.info("ClientEntity created with name: " + name + " " + surname);
 	}
 
 	public long getId() {
@@ -75,11 +77,11 @@ public class ClientEntity {
 		this.surname = surname;
 	}
 
-	public LocalDateTime getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(LocalDateTime birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 
@@ -91,15 +93,6 @@ public class ClientEntity {
 		this.phone = phone;
 	}
 
-	
-	public boolean isLoyalClient() {
-		return loyalClient;
-	}
-
-	public void setLoyalClient(boolean loyalClient) {
-		this.loyalClient = loyalClient;
-	}
-
 //	public InventoryEntity getAssignedInvetory() {
 //		return assignedInvetory;
 //	}
@@ -108,15 +101,18 @@ public class ClientEntity {
 //		this.assignedInvetory = assignedInvetory;
 //	}
 
+	public boolean isLoyal() {
+		return isLoyal;
+	}
+
+	public void setLoyal(boolean isLoyal) {
+		this.isLoyal = isLoyal;
+	}
+
 	@Override
 	public String toString() {
 		return "ClientEntity [id=" + id + ", name=" + name + ", surname=" + surname + ", birthday=" + birthday
-				+ ", phone=" + phone + ", typeOfClient=" + loyalClient + "]";
+				+ ", phone=" + phone + ", typeOfClient=" + isLoyal + "]";
 	}
-
-	
-	
-	
-	
 	
 }

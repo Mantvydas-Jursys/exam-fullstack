@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.annotation.CreatedDate;
 
 import jakarta.persistence.Entity;
@@ -20,6 +22,8 @@ import jakarta.validation.constraints.NotBlank;
 @Entity
 @Table(name="Inventory")
 public class InventoryEntity {
+	
+	private static final Logger logger = LoggerFactory.getLogger(InventoryEntity.class);
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,22 +44,23 @@ public class InventoryEntity {
 
 	@OneToMany
 	@JoinColumn(name = "Client_id")
-	private List<ClientEntity> comment = new ArrayList<>();
+	private List<ClientEntity> clients = new ArrayList<>();
 	
 	public InventoryEntity() {
 		
 	}
 	
 
-	public InventoryEntity(long id, @NotBlank String name, @NotBlank Double mass, @Min(1) @Max(40) Integer sector,
-			LocalDateTime createdDate, List<ClientEntity> comment) {
+	public InventoryEntity(@NotBlank String name, @NotBlank Double mass, @Min(1) @Max(40) Integer sector,
+			LocalDateTime createdDate, List<ClientEntity> clients) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.mass = mass;
 		this.sector = sector;
 		this.createdDate = createdDate;
-		this.comment = comment;
+		this.clients = clients;
+		
+		logger.info("InventoryEntity created with name and mass: " + name + ", mass: " + mass);
 	}
 
 	public long getId() {
@@ -98,18 +103,21 @@ public class InventoryEntity {
 		this.createdDate = createdDate;
 	}
 
-	public List<ClientEntity> getComment() {
-		return comment;
+	public List<ClientEntity> getClients() {
+		
+		logger.info("InventoryEntity reutrned all clients, possible pricacy breach :D");
+		
+		return clients;
 	}
 
-	public void setComment(List<ClientEntity> comment) {
-		this.comment = comment;
+	public void setClients(List<ClientEntity> clients) {
+		this.clients = clients;
 	}
 
 	@Override
 	public String toString() {
 		return "InventoryEntity [id=" + id + ", name=" + name + ", mass=" + mass + ", sector=" + sector
-				+ ", createdDate=" + createdDate + ", comment=" + comment + "]";
+				+ ", createdDate=" + createdDate + ", comment=" + clients + "]";
 	}
 	
 	
