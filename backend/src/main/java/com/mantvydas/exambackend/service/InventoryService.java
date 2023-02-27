@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mantvydas.exambackend.dao.InventoryRepository;
-import com.mantvydas.exambackend.model.ClientEntity;
 import com.mantvydas.exambackend.model.InventoryEntity;
 
 @Service
